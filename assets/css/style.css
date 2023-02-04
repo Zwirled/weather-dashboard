@@ -1,0 +1,28 @@
+.weather-header {
+    background-color: navy;
+}
+
+#today {
+    background-color: magenta;
+}
+
+#history {
+    background-color: coral;
+}
+
+#forecast {
+    background-color: greenyellow;
+}
+
+#search-button {
+    background-color: navy;
+    border: 0;
+    color: white;
+    text-transform: uppercase;
+    padding: 10px 10px;
+    transition: background-color 0.3s ease;
+}
+
+#search-button:hover {
+    background-color: magenta;
+}

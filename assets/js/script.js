@@ -36,7 +36,7 @@ searchBtn.on('click', function (event) {
             // Add it to the page
             $('#today').append(temp);
             // Get the wind speed
-            let wind = $('<p>').text('Wind: ' + response.list[0].wind.speed + 'KPH');
+            let wind = $('<p>').text('Wind: ' + (response.list[0].wind.speed * 2.237) + 'mph');
             // Add it to the page
             $('#today').append(wind);
             // Get the humidity
