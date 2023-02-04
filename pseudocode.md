@@ -3,7 +3,7 @@
 Create a weather dashboard for people going travelling - allow the user to input a location to see the weather data for current day + 5 additional days. The locations inputted should save to local storage so the user can quickly retrieve weather updates.
 
 ## 1
-- Apply for API key - ( de512be1dfc45ff6a68ed04d434e8f93 ).
+- Apply for API key.
 - Link Geocoding API ( Allows user to input location, not longitude/latitude )
 - Add a variable to the search button (#search-button), and add an event listener to it.
 - add event.preventDefault() as the button is part of a form.
