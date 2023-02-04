@@ -27,23 +27,50 @@ searchBtn.on('click', function (event) {
             method: 'GET'
         }).then(function (response) {
 
+            /////
+            // LOCAL STORAGE BUTTONS
+            /////
+
+            let location = $('<button>').text(response.city.name);
+            $('#history').prepend(location);
+
+            location.on('click', function () {
+                $('#today').empty();
+                // Get the city name
+                let name = $('<h2>').text(response.city.name);
+                $('#today').append(name);
+                // Get the temp
+                let temp = $('<p>').text('Temperature: ' + response.list[0].main.temp.toFixed(2) + '°C');
+                $('#today').append(temp);
+                // Get the wind speed
+                let wind = $('<p>').text('Wind: ' + (response.list[0].wind.speed * 2.237).toFixed(2) + 'mph');
+                $('#today').append(wind);
+                // Get the humidity
+                let humidity = $('<p>').text('Humidity: ' + response.list[0].main.humidity + '%');
+                $('#today').append(humidity);
+            })
+
+            /////
+            // TODAY WEATHER INFO //
+            /////
+
             // Get the city name
+            $('#today').empty();
             let name = $('<h2>').text(response.city.name);
-            // Add it to the page
             $('#today').append(name);
             // Get the temp
-            let temp = $('<p>').text('Temperature: ' + response.list[0].main.temp + '°C');
-            // Add it to the page
+            let temp = $('<p>').text('Temperature: ' + response.list[0].main.temp.toFixed(2) + '°C');
             $('#today').append(temp);
             // Get the wind speed
-            let wind = $('<p>').text('Wind: ' + (response.list[0].wind.speed * 2.237) + 'mph');
-            // Add it to the page
+            let wind = $('<p>').text('Wind: ' + (response.list[0].wind.speed * 2.237).toFixed(2) + 'mph');
             $('#today').append(wind);
             // Get the humidity
             let humidity = $('<p>').text('Humidity: ' + response.list[0].main.humidity + '%');
-            // Add it to the page
             $('#today').append(humidity);
+
+            /////
+            // 5 DAY FORECAST
+            /////
         })
     })
-
 });
