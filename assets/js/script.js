@@ -15,6 +15,23 @@ searchBtn.on('click', function (event) {
         method: "GET"
     }).then(function (response) {
         console.log(response);
+
+        // Get the latitude as a variable to 2 decimal places
+        let latitude = response[0].lat.toFixed(2);
+        // Get the longitude as a variable to 2 decimal places
+        let longitude = response[0].lon.toFixed(2);
+        // Query URL + Lat + Long + API Key
+        let weatherQueryURL = "http://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&appid=" + apiKey;
+
+        console.log(weatherQueryURL);
+
+        $.ajax({
+            url: weatherQueryURL,
+            method: "GET"
+        }).then(function (response) {
+            console.log(response);
+        })
     })
+
 
 });
