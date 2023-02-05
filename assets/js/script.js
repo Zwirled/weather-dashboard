@@ -108,28 +108,27 @@ function getTemperatures(response) {
     let wind = $('<p>').text('Wind: ' + (response.list[0].wind.speed * 2.237).toFixed(2) + 'mph');
     // Get the humidity
     let humidity = $('<p>').text('Humidity: ' + response.list[0].main.humidity + '%');
+
     $('#today').append(name, date, icon, temp, wind, humidity);
 
-    let previousDate = "";
-    let firstIteration = true;
     for (let i = 0; i < response.list.length; i++) {
-        let currentDate = moment(response.list[i].dt_txt).format('DD/MM/YYYY');
-        if (currentDate !== previousDate) {
-            if (firstIteration === false) {
-                let column = $('<div>').attr('class', 'col');
-                // Get the date
-                let date = $('<p>').text(currentDate);
-                // Get the weather icon
-                let icon = $('<img>').attr('src', 'http://openweathermap.org/img/wn/' + response.list[i].weather[0].icon + '.png');
-                // Get the temp
-                let temp = $('<p>').text('Temperature: ' + response.list[i].main.temp.toFixed(2) + '°C');
-                // Get the humidity
-                let humidity = $('<p>').text('Humidity: ' + response.list[i].main.humidity + '%');
-                $('#forecast').append(column);
-                $(column).append(date, icon, temp, humidity);
-            }
-            previousDate = currentDate;
-            firstIteration = false;
+
+        // Get the time of the current iteration...
+        let time = moment(response.list[i].dt_txt).format('HH:mm:ss');
+
+        // If it is midday, run the iteration
+        if (time === '12:00:00') {
+            let column = $('<div>').attr('class', 'col');
+            // Get the date
+            let date = $('<p>').text(moment(response.list[i].dt_txt).format('DD/MM/YYYY'));
+            // Get the weather icon
+            let icon = $('<img>').attr('src', 'http://openweathermap.org/img/wn/' + response.list[i].weather[0].icon + '.png');
+            // Get the temp
+            let temp = $('<p>').text('Temperature: ' + response.list[i].main.temp.toFixed(2) + '°C');
+            // Get the humidity
+            let humidity = $('<p>').text('Humidity: ' + response.list[i].main.humidity + '%');
+            $('#forecast').append(column);
+            $(column).append(date, icon, temp, humidity);
         }
     }
 }
