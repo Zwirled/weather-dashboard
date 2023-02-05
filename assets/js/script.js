@@ -95,25 +95,41 @@ function getTemperatures(response) {
     // Get the city name
     $('#today').empty();
     $('#forecast').empty();
+
+    // Get the city name
     let name = $('<h2>').text(response.city.name);
+    // Get the date
+    let date = $('<p>').text(moment(response.list[0].dt_txt).format('DD/MM/YYYY'));
+    // Get the weather icon
+    let icon = $('<img>').attr('src', 'http://openweathermap.org/img/wn/' + response.list[0].weather[0].icon + '.png');
     // Get the temp
     let temp = $('<p>').text('Temperature: ' + response.list[0].main.temp.toFixed(2) + '°C');
     // Get the wind speed
     let wind = $('<p>').text('Wind: ' + (response.list[0].wind.speed * 2.237).toFixed(2) + 'mph');
     // Get the humidity
     let humidity = $('<p>').text('Humidity: ' + response.list[0].main.humidity + '%');
-    $('#today').append(name, temp, wind, humidity);
+    $('#today').append(name, date, icon, temp, wind, humidity);
 
-    for (let i = 1; i < 6; i++) {
-        let column = $('<div>').attr('class', 'col');
-        let name = $('<h2>').text(response.city.name);
-        // Get the temp
-        let temp = $('<p>').text('Temperature: ' + response.list[i].main.temp.toFixed(2) + '°C');
-        // Get the wind speed
-        let wind = $('<p>').text('Wind: ' + (response.list[i].wind.speed * 2.237).toFixed(2) + 'mph');
-        // Get the humidity
-        let humidity = $('<p>').text('Humidity: ' + response.list[i].main.humidity + '%');
-        $('#forecast').append(column);
-        $(column).append(name, temp, wind, humidity);
+    let previousDate = "";
+    let firstIteration = true;
+    for (let i = 0; i < response.list.length; i++) {
+        let currentDate = moment(response.list[i].dt_txt).format('DD/MM/YYYY');
+        if (currentDate !== previousDate) {
+            if (firstIteration === false) {
+                let column = $('<div>').attr('class', 'col');
+                // Get the date
+                let date = $('<p>').text(currentDate);
+                // Get the weather icon
+                let icon = $('<img>').attr('src', 'http://openweathermap.org/img/wn/' + response.list[i].weather[0].icon + '.png');
+                // Get the temp
+                let temp = $('<p>').text('Temperature: ' + response.list[i].main.temp.toFixed(2) + '°C');
+                // Get the humidity
+                let humidity = $('<p>').text('Humidity: ' + response.list[i].main.humidity + '%');
+                $('#forecast').append(column);
+                $(column).append(date, icon, temp, humidity);
+            }
+            previousDate = currentDate;
+            firstIteration = false;
+        }
     }
 }
