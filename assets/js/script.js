@@ -42,6 +42,8 @@ searchBtn.on('click', function (event) {
             method: 'GET'
         }).then(function (response) {
 
+            $('.wrap').addClass('active');
+
             // Get the location name
             let location = response.city.name;
             // Get the locations from local storage
@@ -83,6 +85,8 @@ $(document).ready(function () {
     let locations = localStorage.getItem('locations');
     // If locations exist...
     if (locations) {
+        $('.wrap').addClass('active');
+
         // Convert string to object
         locations = JSON.parse(locations);
 
@@ -122,10 +126,12 @@ $(document).ready(function () {
             });
         });
     }
+
+    $("#history button").first().click();
 });
 
 // Create a clear button
-let clearBtn = $('<button>').text('Delete history');
+let clearBtn = $('<button>').text('Clear history');
 // Append the clear button to the history div
 $('#clear').append(clearBtn);
 
