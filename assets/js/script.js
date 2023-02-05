@@ -104,7 +104,7 @@ $(document).ready(function () {
             locationBtn.on('click', function () {
 
                 // Create the query URL + City + API
-                let geoQueryURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + location + '&limit=1&appid=' + apiKey;
+                let geoQueryURL = 'https://api.openweathermap.org/geo/1.0/direct?q=' + location + '&limit=1&appid=' + apiKey;
 
                 $.ajax({
                     url: geoQueryURL,
@@ -116,7 +116,7 @@ $(document).ready(function () {
                     // Get the longitude as a variable to 2 decimal places
                     let longitude = response[0].lon.toFixed(2);
                     // Create the query URL + Lat + Long + API Key
-                    let weatherQueryURL = 'http://api.openweathermap.org/data/2.5/forecast?lat=' + latitude + '&lon=' + longitude + '&units=metric&appid=' + apiKey;
+                    let weatherQueryURL = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + latitude + '&lon=' + longitude + '&units=metric&appid=' + apiKey;
 
                     $.ajax({
                         url: weatherQueryURL,
@@ -159,7 +159,7 @@ function getTemperatures(response) {
     // Get the date
     let date = $('<p>').text(moment(response.list[0].dt_txt).format('DD/MM/YYYY'));
     // Get the weather icon
-    let icon = $('<img>').attr('src', 'http://openweathermap.org/img/wn/' + response.list[0].weather[0].icon + '.png');
+    let icon = $('<img>').attr('src', 'https://openweathermap.org/img/wn/' + response.list[0].weather[0].icon + '.png');
     // Get the temp
     let temp = $('<p>').text('Temperature: ' + response.list[0].main.temp.toFixed(2) + '°C');
     // Get the wind speed
@@ -180,7 +180,7 @@ function getTemperatures(response) {
             // Get the date
             let date = $('<p>').text(moment(response.list[i].dt_txt).format('DD/MM/YYYY'));
             // Get the weather icon
-            let icon = $('<img>').attr('src', 'http://openweathermap.org/img/wn/' + response.list[i].weather[0].icon + '.png');
+            let icon = $('<img>').attr('src', 'https://openweathermap.org/img/wn/' + response.list[i].weather[0].icon + '.png');
             // Get the temp
             let temp = $('<p>').text('Temperature: ' + response.list[i].main.temp.toFixed(2) + '°C');
             // Get the humidity
