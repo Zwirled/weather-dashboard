@@ -23,7 +23,7 @@ searchBtn.on('click', function (event) {
     locations.push(city);
 
     // Create the query URL + City + API
-    let geoQueryURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + apiKey;
+    let geoQueryURL = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + apiKey;
 
     $.ajax({
         url: geoQueryURL,
@@ -35,7 +35,7 @@ searchBtn.on('click', function (event) {
         // Get the longitude as a variable to 2 decimal places
         let longitude = response[0].lon.toFixed(2);
         // Create the query URL + Lat + Long + API Key
-        let weatherQueryURL = 'http://api.openweathermap.org/data/2.5/forecast?lat=' + latitude + '&lon=' + longitude + '&units=metric&appid=' + apiKey;
+        let weatherQueryURL = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + latitude + '&lon=' + longitude + '&units=metric&appid=' + apiKey;
 
         $.ajax({
             url: weatherQueryURL,
