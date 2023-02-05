@@ -14,6 +14,14 @@ searchBtn.on('click', function (event) {
     // Empty the input field
     $('#search-input').val('');
 
+    // Check if the location has already been searched
+    if (locations.includes(city)) {
+        // If the location has already been searched, return
+        return;
+    }
+    // Add the city to the list of locations
+    locations.push(city);
+
     // Create the query URL + City + API
     let geoQueryURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + apiKey;
 
@@ -114,6 +122,19 @@ $(document).ready(function () {
             });
         });
     }
+});
+
+// Create a clear button
+let clearBtn = $('<button>').text('Delete history');
+// Append the clear button to the history div
+$('#clear').append(clearBtn);
+
+// When the clear button is clicked...
+clearBtn.on('click', function () {
+    // Remove the locations from local storage
+    localStorage.removeItem('locations');
+    // Empty the history div
+    $('#history').empty();
 });
 
 // Function to get all the temperatures for a location
