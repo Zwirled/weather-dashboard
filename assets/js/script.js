@@ -42,6 +42,7 @@ searchBtn.on('click', function (event) {
             method: 'GET'
         }).then(function (response) {
 
+            // Add class 'active' to wrap div
             $('.wrap').addClass('active');
 
             // Get the location name
@@ -85,6 +86,8 @@ $(document).ready(function () {
     let locations = localStorage.getItem('locations');
     // If locations exist...
     if (locations) {
+
+        // Add class 'active' to wrap div
         $('.wrap').addClass('active');
 
         // Convert string to object
@@ -127,6 +130,7 @@ $(document).ready(function () {
         });
     }
 
+    // Make the most recent location button be clicked on page load
     $("#history button").first().click();
 });
 
