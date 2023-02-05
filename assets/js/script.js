@@ -1,12 +1,16 @@
 const searchBtn = $('#search-button');
 const apiKey = 'de512be1dfc45ff6a68ed04d434e8f93';
 
+let locations = [];
+
 searchBtn.on('click', function (event) {
     // Prevent the form refreshing on submit
     event.preventDefault();
 
     // Get the user-inputted value
     let city = $('#search-input').val().trim();
+    $('#search-input').val('');
+
     // Query URL + City + API
     let geoQueryURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + apiKey;
 
@@ -27,56 +31,59 @@ searchBtn.on('click', function (event) {
             method: 'GET'
         }).then(function (response) {
 
-            let location = $('<button>').text(response.city.name);
-            $('#history').prepend(location);
-            getTemperatures(response);
-            localStorage.setItem('location', location.text());
+            let location = response.city.name;
+            let locations = localStorage.getItem('locations');
 
-            location.on('click', function () {
+            if (locations) {
+                locations = JSON.parse(locations);
+                locations.push(location);
+            } else {
+                locations = [location];
+            }
+
+            localStorage.setItem('locations', JSON.stringify(locations));
+            let locationBtn = $('<button>').text(location);
+            $('#history').prepend(locationBtn);
+            getTemperatures(response);
+
+            locationBtn.on('click', function () {
                 getTemperatures(response);
             });
 
-        })
-    })
+        });
+    });
 });
 
 $(document).ready(function () {
+    let locations = localStorage.getItem('locations');
+    if (locations) {
+        locations = JSON.parse(locations);
+        locations.forEach(function (location) {
+            let locationBtn = $('<button>').text(location);
+            $('#history').prepend(locationBtn);
 
-    // Get the location from local storage if it exists
-    let location = localStorage.getItem('location');
-
-    // If local storage item exists...
-    if (location) {
-        // add the saved location to the button
-        let savedLocation = $('<button>').text(location);
-        // prepend the saved location to the div
-        $('#history').prepend(savedLocation);
-
-        // when saved location is clicked...
-        savedLocation.on('click', function () {
-
-            // get the location
-            let city = location;
-            // add the city + API to the query url
-            let geoQueryURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + apiKey;
-
-            $.ajax({
-                url: geoQueryURL,
-                method: 'GET'
-            }).then(function (response) {
-
-                // Get the latitude as a variable to 2 decimal places
-                let latitude = response[0].lat.toFixed(2);
-                // Get the longitude as a variable to 2 decimal places
-                let longitude = response[0].lon.toFixed(2);
-                // Query URL + Lat + Long + API Key
-                let weatherQueryURL = 'http://api.openweathermap.org/data/2.5/forecast?lat=' + latitude + '&lon=' + longitude + '&units=metric&appid=' + apiKey;
+            locationBtn.on('click', function () {
+                // Query URL + City + API
+                let geoQueryURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + location + '&limit=1&appid=' + apiKey;
 
                 $.ajax({
-                    url: weatherQueryURL,
+                    url: geoQueryURL,
                     method: 'GET'
                 }).then(function (response) {
-                    getTemperatures(response);
+
+                    // Get the latitude as a variable to 2 decimal places
+                    let latitude = response[0].lat.toFixed(2);
+                    // Get the longitude as a variable to 2 decimal places
+                    let longitude = response[0].lon.toFixed(2);
+                    // Query URL + Lat + Long + API Key
+                    let weatherQueryURL = 'http://api.openweathermap.org/data/2.5/forecast?lat=' + latitude + '&lon=' + longitude + '&units=metric&appid=' + apiKey;
+
+                    $.ajax({
+                        url: weatherQueryURL,
+                        method: 'GET'
+                    }).then(function (response) {
+                        getTemperatures(response);
+                    });
                 });
             });
         });
